@@ -7,9 +7,13 @@ To be filled
 
 ## Dataset details
 Source: UCI Machine Learning Repository(https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition)
+
 Article: https://www.sciencedirect.com/science/article/pii/S2352340919306985?via%3Dihub
+
 Number of Instances: 2,111
+
 Number of Attributes: 17 (including the target variable)
+
 Countries Represented: Mexico, Peru, and Colombia
 
 Who created the dataset?
