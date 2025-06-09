@@ -125,5 +125,30 @@ Goals:
 - Tanya Ignatenko 
 - Yi-Hui Fan
 
+## Realistic decision-making scenario 
+What real-world decision could be made with this dataset?
+What kind of recommendations we should provide to a person to help them achieve a normal weight.
+
+What are possible constraints & requirements?
+1. If our recommendation system provides recommendations that can cause harm for person's health (eg. advicess to start smoking to achieve a normal weight)
+2. Store securely user's data in accordance to GDPR
+3. A value is required for all of the features to make a prediction
+4. Our recommendation system should provide a prediction in a reasonable amount of time
+
+What are the stakes?
+High stakes, because we can provide recommendations that can cause harm to person's health because:
+1. predict wrong predictions (because of model's errors).
+2. recommendations are not tailored to a user.
+3. autors of software and end users don't know the domain.
+4. users could overact on recommendations (eg. don't eat at all, overexercising)
+
+What ML model might be used? 
+We can use tree-based models, because they're easily explainable as the trees could be plotted.
+
+## Scenario Brief:
+We could create a software that would provide recommendations for a user that would help them to achieve a normal weight. This software could be used by a nutritionist.
+
+1. Brainstorm a set of possible Stakeholders (Be creative)
+Patients/Users, Nutrionists/Trainers, A Decision maker on deployment of app in a hospital/gym, ML experts.
 
 
