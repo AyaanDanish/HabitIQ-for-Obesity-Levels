@@ -36,6 +36,17 @@ The UCI repository entry provides a brief overview of the dataset but does not i
 This dataset contains information on obesity levels based on eating habits and physical conditions, collected from individuals in Mexico, Peru, and Colombia. It includes 2111 instances and 17 features, with the target variable NObesity categorizing individuals into seven obesity levels. The dataset can be used for classification, regression, and clustering tasks and is publicly available under a CC BY license.
 
 ## 2. Decision-Making Scenario
+**Scenario: The "HabitLens" Clinical Support Tool**  
+A dietitian is in his clinic for an initial consultation with a new client who wants to achieve a healthier weight. During the interview, the dietitian inputs the client's physical attributes and habits details — such as meal frequency, physical activity, and screen time — into a diagnostic software called "HabitLens".
+
+**Decision to be made:**  
+The dietitian needs to decide which specific habits changes to prioritize in the client's initial wellness plan for the most effective results.
+
+**How the ML model supports the decision:**  
+The system uses a ML model that has learned to  make a prediction based on a client's habits and physical attributes, do they fall into the "Obesity" or "No-Obesity" group. More importantly, the model then explains why it made that choice. It calculates the impact of each individual habit, showing the dietitian exactly which habits are most responsible for pushing a client into the 'Obesity' category. This provides the dietitian with a clear, data-backed list of the most impactful habits changes to focus on first.
+
+**Context / Use Case:**  
+The dietitian uses this information on his desktop computer during the one-on-one consultation with a client. Instead of relying solely on his expertise and intuition, he can use the model's output to immediately focus on the most impactful, evidence-backed changes, allowing him to co-create a highly personalized and effective action plan with his client.
 
 ## 3. Stakeholder Analysis
 ### Stakeholder list:
