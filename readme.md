@@ -48,6 +48,34 @@ The system uses a ML model that has learned to  make a prediction based on a cli
 **Context / Use Case:**  
 The dietitian uses this information on his desktop computer during the one-on-one consultation with a client. Instead of relying solely on his expertise and intuition, he can use the model's output to immediately focus on the most impactful, evidence-backed changes, allowing him to co-create a highly personalized and effective action plan with his client.
 
+**Type of ML Task:** Classification
+
+**Constraints & Requirements:** 
+- **Interpretability:** The model must be explainable for nutritionists and end-users to trust and act on.
+
+- **Legal Constraints:** User data must be stored and processed in compliance with GDPR and medical data protection regulations.
+
+- **Data Quality:** 77% of the data is synthetic which may affect real-world generalizability. 
+
+- **Technical Constraints:** All features must be provided by the user to obtain a prediction (no missing values are allowed).
+
+- **Functional Constraints:** The model must provide near real-time recommendations.
+
+- **Ethical Constraints:** Recommendations must not risk user health (e.g., unsafe dietary or exercise advice).
+
+- **Domain Knowledge Gap:** ML experts may lack nutrition-specific understanding. Collaboration with healthcare professionals may be required.
+
+**What is at stake in this decision?**
+- **User Health & Safety:** Poor recommendations can lead to unhealthy behaviors like under-eating or over-exercising.
+
+- **Trust in the System:** Users and professionals may reject the tool or refuse to trust its recommendations if it lacks transparency or accuracy.
+
+- **Reputation & Liability:** Incorrect or harmful advice could create legal risks and loss of credibility for both the provider and the operator.
+
+- **Model Fairness:** The model needs to be fair, because there is a risk of biased predictions affecting specific groups based on factors like their gender or age.
+
+- **Adoption & Usability:** If the model isn’t interpretable or practical, it won’t be used effectively by nutritionists or users.
+
 ## 3. Stakeholder Analysis
 ### Stakeholder list:
 - Patient, user 
