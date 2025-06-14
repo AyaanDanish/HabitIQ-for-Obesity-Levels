@@ -26,23 +26,23 @@ Ethical Exploriong of the Dataset for estimation of obesity levels.
 **When was the dataset created?** The dataset was donated on 8/26/2019.
 
 **What does each attribute mean?** 
-Gender
-Age
-Height
-Weight
-family_history_with_overweight (Has a family member suffered or suffers from overweight?)
-FAVC (Do you eat high caloric food frequently?)
-FCVC (Do you usually eat vegetables in your meals?)
-NCP (How many main meals do you have daily?)
-CAEC (Do you eat any food between meals?)
-SMOKE (Do you smoke?)
-CH2O (How much water do you drink daily?)
-SCC (Do you monitor the calories you eat daily?)
-FAF (How often do you have physical activity?)
-TUE (How much time do you use technological devices such as cell phone, videogames, television, computer and others?)
-CALC (How often do you drink alcohol?)
-MTRANS (Which transportation do you usually use?)
-NObeyesdad (Obesity level)
+- Gender
+- Age
+- Height
+- Weight
+- family_history_with_overweight (Has a family member suffered or suffers from overweight?)
+- FAVC (Do you eat high caloric food frequently?)
+- FCVC (Do you usually eat vegetables in your meals?)
+- NCP (How many main meals do you have daily?)
+- CAEC (Do you eat any food between meals?)
+- SMOKE (Do you smoke?)
+- CH2O (How much water do you drink daily?)
+- SCC (Do you monitor the calories you eat daily?)
+- FAF (How often do you have physical activity?)
+- TUE (How much time do you use technological devices such as cell phone, videogames, television, computer and others?)
+- CALC (How often do you drink alcohol?)
+- MTRANS (Which transportation do you usually use?)
+- NObeyesdad (Obesity level)
 
 **For what purpose was the dataset created?** The dataset was created to estimate obesity levels in individuals based on their eating habits and physical condition. It is suitable for tasks such as classification, regression, and clustering.
 
