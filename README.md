@@ -161,6 +161,22 @@ Goals:
 - What real-world decision could be made with this dataset?
 - What kind of recommendations we should provide to a person to help them achieve a normal weight?
 
+## 4. Prototyping
+### Stakeholder: Nutritionist or Trainer
+
+**Prior knowledge needed to use our application**
+
+**Explanations needed by the stakeholder**
+
+**Prior knowledge in Data Science needed to understand the decision**
+
+### Individual Paper Prototypes
+
+
+### Group Paper Prototype
+
+
+## Other Important Notes
 **What are possible constraints & requirements?**
 1. If our recommendation system provides recommendations that can cause harm for person's health (eg. advicess to start smoking to achieve a normal weight)
 2. Store securely user's data in accordance to GDPR
