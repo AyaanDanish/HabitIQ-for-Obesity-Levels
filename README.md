@@ -181,14 +181,21 @@ Goals:
 ## 4. Prototyping
 ### Stakeholder: Nutritionist or Trainer
 
-**Prior knowledge needed to use our application**
+**What prior knowledge does the Stakeholder need to use your application?**
+- Nutrition/Fitness expertise: Understanding of obesity risk factors, behavior change strategies, nutrition basics (for Nutritionists), and exercise science (for Trainers).
+- Digital tool familiarity: Ability to use diagnostic software and interpret results.
+- Client communication skills: Effectively explaining findings and collaboratively create action plans with clients.
 
-**Explanations needed by the stakeholder**
+**What explanations might the Stakeholder need?**
+- Prioritized list of obesity factors (with percentages of impact)
+- Comparative effectiveness (e.g., "Reducing high caloric food is more impactful than increasing exercise").
+- Model confidence score
 
-**Prior knowledge in Data Science needed to understand the decision**
+**What prior knowledge in Data Science needed to understand the decision?**
+None. Explanations use practical, non-technical language.
 
 ### Individual Paper Prototypes
-
+![Alt text](images/screenshot.png)
 
 ### Group Paper Prototype
 
