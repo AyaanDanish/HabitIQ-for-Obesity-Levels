@@ -195,7 +195,17 @@ Goals:
 None. Explanations use practical, non-technical language.
 
 ### Individual Paper Prototypes
-![Alt text](images/screenshot.png)
+![Alt text](images/individual_prototype1a.jpg)
+
+![Alt text](images/individual_prototype1b.JPG)
+
+![Alt text](images/individual_prototype2.jpg)
+
+![Alt text](images/individual_prototype3.JPG)
+
+![Alt text](images/individual_prototype4.JPG)
+
+![Alt text](images/individual_prototyp5.jpg)
 
 ### Group Paper Prototype
 
