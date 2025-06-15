@@ -205,7 +205,7 @@ None. Explanations use practical, non-technical language.
 
 ![Alt text](images/individual_prototype4.JPG)
 
-![Alt text](images/individual_prototyp5.jpg)
+![Alt text](images/individual_prototype5.jpg)
 
 ### Group Paper Prototype
 
