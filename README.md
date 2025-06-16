@@ -209,6 +209,9 @@ None. Explanations use practical, non-technical language.
 
 ### Group Paper Prototype
 
+![Alt text](images/individual_prototype1a.jpg)
+
+![Alt text](images/individual_prototype1b.JPG)
 
 ## Other Important Notes
 **What are possible constraints & requirements?**
