@@ -244,8 +244,8 @@ We could create a software that would provide recommendations for a user that wo
 You can find Model training and explanations details here: https://colab.research.google.com/drive/1bQiXDFy0IIsvTnZQEUF4fzrHaY12SRpH?usp=sharing
 
 ## User Guide
-1. Decide which user needs are interesting and note which questions you might need to ask. Write down questions you are interested in.
-User needs:
+1. Decide which user needs are interesting and note which questions you might need to ask. Write down questions you are interested in.  
+**User needs:**
 - simple and intuituitive interface
 - not spend much time to achieve their goal with application
 - don't need prior training
@@ -253,25 +253,25 @@ User needs:
 - effectively achieve their goalds with the app
 - ability to fullfill client needs
 
-Is the Results page feels intuitive for you?
-How do you like the process of filling Client information?
-How do you feel regarding performance of the app? Does it feel fast enough?
-Have you felt lost during the process of using the app?
-What do you think, does user need to know domain knowledge to use the app?
-
-2.  Normally, a consent form is needed. In this case, at least ask for consent to use the answers for your presentation and evaluation.
-Do you agree that we will use your answers for imrovement our model?
+**Questions:**. 
+- Is the Results page feels intuitive for you?  
+- How do you like the process of filling Client information? 
+- How do you feel regarding performance of the app? Does it feel fast enough?  
+- Have you felt lost during the process of using the app?  
+- What do you think, does user need to know domain knowledge to use the app? 
+ 
+2.  Normally, a consent form is needed. In this case, at least ask for consent to use the answers for your presentation and evaluation.  
+Do you agree that we will use your answers for improvement our model?
 
 3. Introduce the general idea of your scenario and the decision-making setting, and who the primary Stakeholder is, such that the person understands the context. But don’t explain more, than the average user would know!
 4. Start with easy open questions in a semi-structured way, e.g., “Do you use many apps?”, “Have you ever used a tool like this?”, “Who do you think would need such a product?”.
-Do you use many apps?
-What kind of apps did you use (health, sport, habits, games)?
-Who do you think would need such a product?
-What do you think, does user need to know domain knowledge to use the app?
-What is your favourite app?
-What app do you use daily?
-Do you like to fill forms?
-
+- Do you use many apps?
+- What kind of apps did you use (health, sport, habits, games)?
+- Who do you think would need such a product?
+- What do you think, does user need to know domain knowledge to use the app?
+- What is your favourite app?
+- What app do you use daily?
+- Do you like to fill forms?
 
 5. Let the interviewee experience your prototype and not implemented ideas (simulate functionality if needed): Ask the interviewee to think-aloud, while you passively guide through the prototype. 
 - 5.1 Think about things users would like to do with the tool and formulate them as tasks (at least five). To get more information, ask open questions after the interviewee finishes thoughts in a specific context such as: “What would you do next?”. Here you have the goal, to understand current problems, expectations and needs of the users.
