@@ -261,7 +261,7 @@ You can find Model training and explanations details here: https://colab.researc
 - What do you think, does user need to know domain knowledge to use the app? 
  
 **2.  Normally, a consent form is needed. In this case, at least ask for consent to use the answers for your presentation and evaluation.** 
-Do you agree that we will use your answers for improvement our model?
+- Do you agree that we will use your answers for improvement our model?
 
 **3. Introduce the general idea of your scenario and the decision-making setting, and who the primary Stakeholder is, such that the person understands the context. But don’t explain more, than the average user would know!**
 
@@ -275,6 +275,7 @@ Do you agree that we will use your answers for improvement our model?
 - Do you like to fill forms?
 
 **5. Let the interviewee experience your prototype and not implemented ideas (simulate functionality if needed): Ask the interviewee to think-aloud, while you passively guide through the prototype.**
+
 **5.1 Think about things users would like to do with the tool and formulate them as tasks (at least five). To get more information, ask open questions after the interviewee finishes thoughts in a specific context such as: “What would you do next?”. Here you have the goal, to understand current problems, expectations and needs of the users.**
 - Fill the form with the client data
 - Interpret the results
