@@ -213,10 +213,6 @@ None. Explanations use practical, non-technical language.
 
 ![Alt text](images/individual_prototype1b.JPG)
 
-### Scenario Walkthrough with Paper prototype
-
-![Alt text](images/final_prototype_task1_3rd_group_project.jpeg)
-
 ## Other Important Notes
 **What are possible constraints & requirements?**
 1. If our recommendation system provides recommendations that can cause harm for person's health (eg. advicess to start smoking to achieve a normal weight)
@@ -238,6 +234,10 @@ We can use tree-based models, because they're easily explainable as the trees co
 
 ## Scenario Brief:
 We could create a software that would provide recommendations for a user that would help them to achieve a normal weight. This software could be used by a nutritionist.
+
+### Scenario Walkthrough with Paper Prototype
+
+![Alt text](images/final_prototype_task1_3rd_group_project.jpeg)
 
 ## Model Training & Explanations
 
