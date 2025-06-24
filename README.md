@@ -237,7 +237,7 @@ We could create a software that would provide recommendations for a user that wo
 
 ## Model Training & Explanations
 
-Colab link: https://colab.research.google.com/drive/1bQiXDFy0IIsvTnZQEUF4fzrHaY12SRpH?usp=sharing
+You can find Model training and explanations details here: https://colab.research.google.com/drive/1bQiXDFy0IIsvTnZQEUF4fzrHaY12SRpH?usp=sharing
 
 ## Authors
 - Syed Ayaan Danish
