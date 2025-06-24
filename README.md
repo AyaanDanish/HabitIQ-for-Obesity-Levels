@@ -235,6 +235,10 @@ We can use tree-based models, because they're easily explainable as the trees co
 ## Scenario Brief:
 We could create a software that would provide recommendations for a user that would help them to achieve a normal weight. This software could be used by a nutritionist.
 
+## Model Training & Explanations
+
+Colab link: https://colab.research.google.com/drive/1bQiXDFy0IIsvTnZQEUF4fzrHaY12SRpH?usp=sharing
+
 ## Authors
 - Syed Ayaan Danish
 - Abisola Ajuwon
