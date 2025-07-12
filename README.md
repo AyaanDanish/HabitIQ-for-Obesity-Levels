@@ -297,6 +297,113 @@ You can find Model training and explanations details here: https://colab.researc
 
 **6. Finish & Goodbyes!**
 
+## User Study Feedback
+
+### Participant 1:
+
+**Overall impression:** "It was fine."
+
+**Clarity Issues:**
+- Needed clearer definitions/explanations:
+
+  - What qualifies as "physical activity."
+  - What is considered "high-calorie food" (suggested adding examples or general categories).
+
+- Found it difficult to estimate vegetable and water consumption (suggested providing guidance or measurement help).
+
+**Results Page:**
+- Difficulty identifying the most important information.
+- Risk Factors and Recommendations sections use the same color (suggested using a more warning color for Risk Factors).
+
+**UI/UX Concerns:**
+- The red color for selected checkboxes felt like an error indicator (it implies the user did something wrong).
+- Did not understand that the gauge represents the "Future Obesity Score" based on entered habits, leading to surprise at the results.
+- Input fields were perceived as unnecessarily large.
+- Increasing/decreasing numbers using the arrows was slow due to distance (suggested making elements smaller and closer together to reduce mouse movement).
+
+
+### Participant 2:
+**Overall impression:** "It was great!"
+
+**Positive Feedback:**
+- Praised the visuals and "super simple" interface.
+- Found the interface easy to understand; good separation of information, icons, and titles.
+
+**Suggestions for Improvement:**
+- Clarity:
+  - Did not understand that the gauge represents the "Future Obesity Score" based on habits.
+  - Suggested clarifying the timeframe implied by "Future" (e.g., 6 months, 1 year, 10 years).
+
+- UI/UX:
+  - Wants to add "Diverse" as a gender option.
+  - Suggested changing the gauge's color scheme (noted duplicate yellow at start; proposed using gray or blue instead).
+  - Suggested color-coding the BMI result to indicate if it's "good" or "bad".
+  - Identified a "Nice to have" feature: Ability to go back and correct specific data after seeing results, instead of restarting the entire process.
+
+### Key Feedback Highlights
+1. **Clarity of Terms:**
+- Unclear definitions: "physical activity," "high-calorie food," "Future Obesity Score," "Future" timeframe.
+- Difficulty estimating vegetable/water intake without guidance.
+2. **Results Page Issues:**
+- Gauge: Purpose misunderstood (future score based on habits), color scheme confusing (double yellow).
+- Important information not prioritized.
+- Identical colors for "Risk Factors" (should signal warning) and "Recommendations."
+3. **UI/UX Frustrations:**
+- Checkboxes: Red selection color perceived as error/wrongdoing.
+- Inputs: Fields too large; arrow buttons inconveniently placed.
+- BMI: Lacks visual health indicator (good/bad).
+4. **Inclusivity:**
+- Missing "Diverse" gender option.
+5. **Flow:**
+- No way to edit data after submission (full restart required).
+
+### Design Implications
+1. Ambiguous labels/terms reduce trust & accuracy → Need explanations and examples.
+2. Predictive metrics need explicit context → Scores must clarify data source ("based on habits") and timeframe.
+3. Visual hierarchy fails to communicate importance → Risk factors require stronger visual signaling.
+4. Color semantics conflict with user expectations → Red = error; avoid repurposing for positive actions.
+5. Input efficiency impacts usability → Compact, ergonomic controls reduce inconvenience.
+6. Missing inclusivity options alienate some users → Gender selections must reflect diversity.
+7. Rigid user flows create frustration → Allow partial data correction after submission.
+
+### Proposed Changes
+1. **Clarity & Explanations**
+- Add tooltips/examples:
+  - "Physical activity": "e.g., gym workouts, fast walking, cycling, swimming ≥10 min"
+  - "High-calorie foods": "e.g., fast food, sugary drinks, fried snacks"
+  - Vegetable/water inputs: Add helper text ("1 serving ≈ 1 cup raw veggies"; "1 glass ≈ 250ml").
+- Relabel the gauge:
+  - E.g. "Estimated 5-Year Obesity Risk Score"
+  - Subtitle: "Based on your current lifestyle habits".
+
+2. **Visual Design & Hierarchy**
+- Results page:
+  - Risk Factors: Use yellow/orange color
+  - BMI: Add color-coded label (Green: "Healthy", Yellow: "Overweight", Red: "Obese").
+- Checkboxes: Change selection color to blue or green (positive action).
+- Gauge: Remove duplicate colors. Colors: Gray (low) → Green → Yellow → Red (high score).
+
+3. **Input Optimization**
+- Reduce input field sizes by 20-30%.
+- Add a "?" icon next to complex inputs (e.g., vegetable intake) linking to a visual guide.
+
+4. **Inclusivity:**
+Add "Diverse" to gender options.
+
+5. **Flow:**
+[Optional] Post-submission edit: Add an "Edit Responses" button on results page → Opens sectionized form with pre-filled prior answers.
+
+### Prioritization
+**Change** | **Priority** | **Effort** | **Remarks**
+| -------- | ------- | ------- | ------- |
+Clarify "Future Obesity Score" | Critical | Low
+Fix checkbox/risk factor colors | High | Low | Done
+Add input examples/guides | High | Medium | Done
+BMI color-coding | Medium | Low
+Gender option addition | Medium | Low | Not possible - dataset only includes Male and Female
+Compact input fields | Medium| Medium | Done
+Enable data editing post-submit | Medium | High
+
 ## Authors
 - Syed Ayaan Danish
 - Abisola Ajuwon
