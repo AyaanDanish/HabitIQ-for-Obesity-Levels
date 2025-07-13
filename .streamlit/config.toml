@@ -1,0 +1,18 @@
+[theme]
+# Primary theme color (used for focus states, buttons, etc.)
+primaryColor = "#3b82f6"
+
+# Background color for the main content area
+backgroundColor = "#111827"
+
+# Background color for sidebar
+secondaryBackgroundColor = "#1f2937"
+
+# Text color
+textColor = "#f9fafb"
+
+# Font family
+font = "sans serif"
+
+# Base theme - can be "light" or "dark"
+base = "dark"
