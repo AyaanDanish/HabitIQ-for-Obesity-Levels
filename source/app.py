@@ -7,20 +7,69 @@ import joblib
 import os
 
 
+# Adjusted Importance Model Class (needed for loading pickled adjusted models)
+class AdjustedImportanceModel:
+    def __init__(self, model, feature_names, adjusted_importance):
+        self.model = model
+        self.feature_names = feature_names
+        self.adjusted_importance = adjusted_importance
+        self.original_importance = model.feature_importances_
+
+    def predict(self, X):
+        return self.model.predict(X)
+
+    def predict_proba(self, X):
+        return self.model.predict_proba(X)
+
+    def get_adjusted_importance(self):
+        return self.adjusted_importance
+
+    def get_original_importance(self):
+        return self.original_importance
+
+    @property
+    def classes_(self):
+        return self.model.classes_
+
+    @property
+    def feature_importances_(self):
+        # Return adjusted importance by default
+        return self.adjusted_importance
+
+
 # Get the directory of this script to build absolute paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 
 
-# Load the trained model
+# Load the trained model (with adjusted importance if available)
 @st.cache_resource
 def load_model():
-    model_path = os.path.join(PROJECT_ROOT, "model", "random_forest_model.pkl")
-    if os.path.exists(model_path):
-        return joblib.load(model_path)
+    # Try to load the adjusted model first
+    adjusted_model_path = os.path.join(
+        PROJECT_ROOT, "model", "obesity_model_adjusted.pkl"
+    )
+    original_model_path = os.path.join(PROJECT_ROOT, "model", "random_forest_model.pkl")
+
+    if os.path.exists(adjusted_model_path):
+        try:
+            adjusted_model = joblib.load(adjusted_model_path)
+            st.success(
+                "✅ **Loaded adjusted model** - Using lifestyle-focused feature importance"
+            )
+            return adjusted_model
+        except Exception as e:
+            st.warning(
+                f"Failed to load adjusted model: {e}. Falling back to original model."
+            )
+
+    if os.path.exists(original_model_path):
+        original_model = joblib.load(original_model_path)
+        st.info("ℹ️ **Loaded original model** - Using standard feature importance")
+        return original_model
     else:
         st.error(
-            f"Model file not found at {model_path}. Please ensure 'random_forest_model.pkl' exists."
+            f"No model files found. Please ensure either 'obesity_model_adjusted.pkl' or 'random_forest_model.pkl' exists in the model directory."
         )
         return None
 
@@ -444,8 +493,14 @@ class ObesityAssessment:
             return self._fallback_risk_calculation(data)
 
         try:  # Get prediction and probabilities
-            prediction = self.model.predict(input_data)[0]
-            probabilities = self.model.predict_proba(input_data)[0]
+            # Handle both original model and adjusted model wrapper
+            if hasattr(self.model, "predict"):
+                prediction = self.model.predict(input_data)[0]
+                probabilities = self.model.predict_proba(input_data)[0]
+            else:
+                # Fallback if model structure is unexpected
+                st.error("Model prediction methods not available")
+                return self._fallback_risk_calculation(data)
 
             # Calculate BMI
             height = data.get("height", 1.7)
@@ -517,9 +572,21 @@ class ObesityAssessment:
 
         try:
             # Get feature importance from the trained model
-            feature_importance = dict(
-                zip(self.feature_names, self.model.feature_importances_)
-            )
+            # Check if this is an adjusted model with custom importance
+            if hasattr(self.model, "get_adjusted_importance"):
+                feature_importance = dict(
+                    zip(self.feature_names, self.model.get_adjusted_importance())
+                )
+                st.info(
+                    "🎯 **Using adjusted feature importance** - Lifestyle factors prioritized"
+                )
+            else:
+                feature_importance = dict(
+                    zip(self.feature_names, self.model.feature_importances_)
+                )
+                st.info(
+                    "📊 **Using original feature importance** - Standard model weights"
+                )
 
             # Calculate feature contributions for this specific patient
             patient_features = {}
@@ -755,10 +822,15 @@ class ObesityAssessment:
             return self._fallback_recommendations(data, risk_score)
 
         try:
-            # Get feature importance from the model
-            feature_importance = dict(
-                zip(self.feature_names, self.model.feature_importances_)
-            )
+            # Get feature importance from the model (adjusted if available)
+            if hasattr(self.model, "get_adjusted_importance"):
+                feature_importance = dict(
+                    zip(self.feature_names, self.model.get_adjusted_importance())
+                )
+            else:
+                feature_importance = dict(
+                    zip(self.feature_names, self.model.feature_importances_)
+                )
             input_data = self.prepare_input_data(data)
 
             recommendations = []
@@ -835,7 +907,11 @@ class ObesityAssessment:
                 )
 
             # Risk-specific recommendations based on prediction
-            current_prediction = self.model.predict(input_data)[0]
+            if hasattr(self.model, "predict"):
+                current_prediction = self.model.predict(input_data)[0]
+            else:
+                current_prediction = "Normal_Weight"  # Safe fallback
+
             if current_prediction in [
                 "Obesity_Type_I",
                 "Obesity_Type_II",
@@ -928,13 +1004,17 @@ class ObesityAssessment:
             return self._fallback_model_explanations(data, results)
 
         try:
-            # Get feature importance from the model
-            if not hasattr(self.model, "feature_importances_"):
+            # Get feature importance from the model (adjusted if available)
+            if hasattr(self.model, "get_adjusted_importance"):
+                feature_importance = dict(
+                    zip(self.feature_names, self.model.get_adjusted_importance())
+                )
+            elif hasattr(self.model, "feature_importances_"):
+                feature_importance = dict(
+                    zip(self.feature_names, self.model.feature_importances_)
+                )
+            else:
                 return self._fallback_model_explanations(data, results)
-
-            feature_importance = dict(
-                zip(self.feature_names, self.model.feature_importances_)
-            )
             input_data = self.prepare_input_data(data)
 
             if input_data is None:
@@ -1004,9 +1084,13 @@ class ObesityAssessment:
             )
 
             # Create prediction breakdown - use model's actual class order
-            model_classes = getattr(
-                self.model, "classes_", getattr(self, "class_labels", [])
-            )
+            if hasattr(self.model, "classes_"):
+                model_classes = self.model.classes_
+            elif hasattr(self.model, "model") and hasattr(self.model.model, "classes_"):
+                model_classes = self.model.model.classes_  # For adjusted model wrapper
+            else:
+                model_classes = getattr(self, "class_labels", [])
+
             explanations["prediction_breakdown"] = self._create_prediction_breakdown(
                 results.get("probabilities", []), model_classes
             )
@@ -1222,9 +1306,7 @@ class ObesityAssessment:
         """Generate overall model reasoning explanation"""
 
         top_3_features = sorted_features[:3]
-        prediction_clean = (
-            prediction.replace("_", " ").title() if prediction else "Unknown"
-        )
+        prediction_clean = prediction.replace("_", " ") if prediction else "Unknown"
 
         reasoning = f"The model predicts '{prediction_clean}' based on a comprehensive analysis of your health profile. "
 
@@ -1285,7 +1367,7 @@ class ObesityAssessment:
 
         breakdown = {}
         for i, (prob, label) in enumerate(zip(probabilities, class_labels)):
-            clean_label = label.replace("_", " ").title()
+            clean_label = label.replace("_", " ")
             breakdown[clean_label] = {
                 "probability": prob * 100,
                 "description": self._get_class_description(label),
@@ -1454,7 +1536,6 @@ def create_risk_gauge(results):
     if "prediction" in results and results["prediction"]:
         prediction = results["prediction"]
         prediction_level, prediction_label = get_discrete_risk_level(prediction)
-        subtitle = f"Model predicts: {prediction.replace('_', ' ')}"
     else:
         # Fallback to risk score
         risk_score = results.get("risk_score", 50)
@@ -1498,8 +1579,8 @@ def create_risk_gauge(results):
                 "steps": [
                     {
                         "range": [0.5, 1.5],
-                        "color": "#fbbf24",
-                    },  # Level 1: Insufficient Weight (yellow - concerning)
+                        "color": "#38bdf8",
+                    },  # Level 1: Insufficient Weight (light blue - underweight)
                     {
                         "range": [1.5, 2.5],
                         "color": "#10b981",
@@ -1541,6 +1622,18 @@ def create_risk_gauge(results):
     bmi_x = 0.5 + 0.30 * np.cos(np.radians(bmi_angle))
     bmi_y = 0.25 + 0.30 * np.sin(np.radians(bmi_angle))
 
+    # Determine the color for the BMI needle and legend dynamically
+    bmi_colors = [
+        "#38bdf8",  # Insufficient Weight (light blue)
+        "#10b981",  # Normal Weight (green)
+        "#fbbf24",  # Overweight Level I (yellow)
+        "#f59e0b",  # Overweight Level II (amber)
+        "#f97316",  # Obesity Type I (orange)
+        "#ef4444",  # Obesity Type II (red)
+        "#b91c1c",  # Obesity Type III (dark red)
+    ]
+    bmi_needle_color = bmi_colors[int(bmi_level) - 1]
+
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -1560,7 +1653,7 @@ def create_risk_gauge(results):
                 yref="paper",
                 line=dict(color="#3b82f6", width=10),
             ),
-            # BMI needle (red - shorter)
+            # BMI needle (dynamic color)
             dict(
                 type="line",
                 x0=0.5,
@@ -1569,7 +1662,10 @@ def create_risk_gauge(results):
                 y1=bmi_y,
                 xref="paper",
                 yref="paper",
-                line=dict(color="#ef4444", width=10),
+                line=dict(
+                    color=bmi_needle_color,
+                    width=10,
+                ),
             ),
             # Center circle
             dict(
@@ -1589,7 +1685,7 @@ def create_risk_gauge(results):
             dict(
                 text=f"<b>{trend_message}</b>",
                 x=0.5,
-                y=0.01,
+                y=-0.02,
                 xref="paper",
                 yref="paper",
                 font=dict(size=12, color=trend_color),
@@ -1597,9 +1693,19 @@ def create_risk_gauge(results):
                 align="center",
             ),
             dict(
-                text=f"<b>{prediction_label}</b>",
+                text=f"{prediction_label}",
                 x=0.5,
-                y=0.05,
+                y=0.03,
+                xref="paper",
+                yref="paper",
+                font=dict(size=20, color=bmi_colors[int(prediction_level) - 1]),
+                showarrow=False,
+                align="center",
+            ),
+            dict(
+                text=f"<b>Future Weight Prediction:</b>",
+                x=0.5,
+                y=0.1,
                 xref="paper",
                 yref="paper",
                 font=dict(size=20, color="white"),
@@ -1608,7 +1714,7 @@ def create_risk_gauge(results):
             ),
             # Legend for needles
             dict(
-                text="Model Prediction <span style='color:#3b82f6'>●</span> ",
+                text="Model Future Prediction <span style='color:#3b82f6'>●</span> ",
                 x=1,
                 y=1,
                 xref="paper",
@@ -1618,7 +1724,7 @@ def create_risk_gauge(results):
                 align="left",
             ),
             dict(
-                text=f"Current BMI <span style='color:#ef4444'>●</span>",
+                text=f"Current BMI <span style='color:{bmi_needle_color}'>●</span>",
                 x=1,
                 y=0.95,
                 xref="paper",
@@ -1639,7 +1745,7 @@ def render_assessment_page():
     # Header
     st.markdown(
         """
-            # :material/routine: HabitLens - Obesity Risk Assessment
+            # :material/routine: HabitIQ - Obesity Risk Assessment
             ##### Comprehensive patient evaluation for nutritional counseling
         """
     )
@@ -1706,7 +1812,7 @@ def render_step_1():
             "Age (years)",
             min_value=1,
             max_value=100,
-            value=30,
+            value=28,
             key="age_input",
             help="Enter the patient's current age in years. This helps assess age-related obesity risk factors.",
         )
@@ -1715,7 +1821,7 @@ def render_step_1():
             "Height (cm)",
             min_value=100,
             max_value=250,
-            value=170,
+            value=175,
             key="height_input",
             help="Enter the patient's height in centimeters. This is used to calculate their BMI and assess weight status.",
         )
@@ -1724,6 +1830,7 @@ def render_step_1():
         gender = st.selectbox(
             "Gender",
             ["Male", "Female"],
+            index=0,
             key="gender_input",
             help="Select the patient's biological gender. This affects metabolic rate and obesity risk assessment.",
         )
@@ -1733,7 +1840,7 @@ def render_step_1():
             "Weight (kg)",
             min_value=30,
             max_value=300,
-            value=70,
+            value=76,
             key="weight_input",
             help="Enter the patient's current weight in kilograms. Combined with height, this calculates their BMI. ",
         )
@@ -1763,6 +1870,7 @@ def render_step_2():
         physical_activity = st.selectbox(
             "Physical Activity Frequency",
             ["Never", "1-2 days per week", "2-4 days per week", "4-5 days per week"],
+            index=0,  # Default to "Never"
             key="physical_activity_input",
             help="Select how often the patient engages in physical exercise or sports activities per week.",
         )
@@ -1770,7 +1878,7 @@ def render_step_2():
         transportation = st.selectbox(
             "Primary Transportation Mode",
             ["Automobile", "Motorbike", "Bike", "Public Transportation", "Walking"],
-            index=3,  # Default to Public Transportation
+            index=0,  # Default to Automobile
             key="transportation_input",
             help="Choose the patient's main method of transportation for daily activities like work or shopping.",
         )
@@ -1779,6 +1887,7 @@ def render_step_2():
         technology_use = st.selectbox(
             "Technology Use (screen time hours/day)",
             ["0-2 hours", "3-5 hours", "More than 5 hours"],
+            index=2,  # Default to "More than 5 hours"
             key="technology_use_input",
             help="Select the average number of hours the patient spends daily on screens (TV, computer, phone, tablets, video games).",
         )
@@ -1819,6 +1928,7 @@ def render_step_3():
         meals_per_day = st.selectbox(
             "Number of Main Meals per Day",
             ["Between 1 & 2", "Exactly 3", "More than 3"],
+            index=0,  # Default to "Between 1 & 2"
             key="meals_per_day_input",
             help="Select how many full meals the patient typically eats per day (breakfast, lunch, dinner, etc.).",
         )
@@ -1826,6 +1936,7 @@ def render_step_3():
         water_consumption = st.selectbox(
             "Water Consumption (litres/day)",
             ["Less than a litre", "Between 1 and 2L", "More than 2L"],
+            index=0,  # Default to "Less than a litre"
             key="water_consumption_input",
             help="Select the number of litres of water the patient drinks daily. Include water from all sources.",
         )
@@ -1834,6 +1945,7 @@ def render_step_3():
         vegetable_consumption = st.selectbox(
             "Vegetable Consumption",
             ["Never", "Sometimes", "Always"],
+            index=0,  # Default to "Never"
             key="vegetable_consumption_input",
             help="Select how often the patient eats vegetables in their meals.",
         )
@@ -1843,6 +1955,7 @@ def render_step_3():
         alcohol_consumption = st.selectbox(
             "Alcohol Consumption",
             ["Never", "Sometimes", "Frequently", "Always"],
+            index=2,  # Default to "Frequently"
             key="alcohol_consumption_input",
             help="Select how often the patient consumes alcoholic beverages. Consider beer, wine, spirits, and mixed drinks.",
         )
@@ -1851,6 +1964,7 @@ def render_step_3():
             "Do you tend to eat between meals?",
             key="eat_between_meals_input",
             options=["No", "Sometimes", "Frequently", "Always"],
+            index=3,  # Default to "Always"
             help="Check if the patient regularly snacks or eats food between their main meals throughout the day.",
         )
 
@@ -1892,12 +2006,14 @@ def render_step_4():
     with col1:
         smoker = st.checkbox(
             "Patient is a smoker.",
+            value=True,  # Default to checked
             key="smoker_input",
             help="Check if the patient currently smokes cigarettes, cigars, or uses other tobacco products regularly.",
         )
 
         family_history = st.checkbox(
             "Patient has family member(s) who suffer from obesity.",
+            value=True,  # Default to checked
             key="family_history_input",
             help="Check if any of the patient's immediate family members (parents, siblings) have a history of obesity or weight problems.",
         )
@@ -1905,12 +2021,14 @@ def render_step_4():
     with col2:
         high_calorie_food = st.checkbox(
             "Patient frequently tend to consume high-calorie foods.",
+            value=True,  # Default to checked
             key="high_calorie_food_input",
             help="Check if the patient regularly eats foods high in calories like fast food, sweets, fried foods, or processed snacks.",
         )
 
         monitor_calories = st.checkbox(
             "Patient monitors their calorie intake daily.",
+            value=False,  # Default to unchecked
             key="monitor_calories_input",
             help="Check if the patient actively tracks or monitors the number of calories they consume daily through apps or food logs.",
         )
@@ -2586,7 +2704,7 @@ def render_report_page():
 
         with col2:
             st.markdown("### **AI Model Prediction**")
-            prediction_clean = results["prediction"].replace("_", " ").title()
+            prediction_clean = results["prediction"].replace("_", " ")
             st.metric(
                 label="Predicted Future Classification",
                 value=prediction_clean,
