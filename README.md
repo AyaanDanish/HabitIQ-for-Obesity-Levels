@@ -1,5 +1,7 @@
 # Project Title
-Ethical Exploriong of the Dataset for estimation of obesity levels.
+Ethical Exploration of the Dataset for Estimation of Obesity Levels.
+
+> Scroll to the end for instructions on how to run the application.
 
 ## 1. Dataset Description
 **Dataset Name:** Estimation of Obesity Levels Based On Eating Habits and Physical Condition
@@ -403,6 +405,68 @@ BMI color-coding | Medium | Low
 Gender option addition | Medium | Low | Not possible - dataset only includes Male and Female
 Compact input fields | Medium| Medium | Done
 Enable data editing post-submit | Medium | High
+
+
+## How to Run the HabitIQ Application
+
+### Prerequisites
+- [Anaconda](https://www.anaconda.com/products/distribution) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed on your system
+- Git (optional, for cloning the repository)
+
+### Quick Start
+
+1. **Clone or download the project:**
+   ```bash
+   git clone https://github.com/AyaanDanish/HabitIQ-for-Obesity-Levels.git
+   cd HabitIQ-for-Obesity-Levels
+   ```
+   *Or download and extract the ZIP file*
+
+2. **Create the conda environment:**
+   ```bash
+   conda env create -f environment.yml
+   ```
+
+3. **Activate the environment:**
+   ```bash
+   conda activate habitiq
+   ```
+
+4. **Run the application:**
+   ```bash
+   streamlit run source/app.py
+   ```
+
+5. **Open your browser:**
+   The application will automatically open at `http://localhost:8501` or you'll see the URL in your terminal.
+
+### Alternative Setup (if conda fails)
+If you encounter issues with conda, you can use pip:
+```bash
+# Create a virtual environment
+python -m venv habitiq_env
+
+# Activate it
+# On Windows:
+habitiq_env\Scripts\activate
+# On macOS/Linux:
+source habitiq_env/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the application
+streamlit run source/app.py
+```
+
+### Troubleshooting
+- **Environment already exists:** `conda env remove -n habitiq` then recreate
+- **Permission errors:** Run as Administrator (Windows) or use `sudo` (macOS/Linux)
+- **Model file not found:** Ensure you're running from the project root directory
+- **Port already in use:** Add `--server.port 8502` to the streamlit command
+
+For detailed setup instructions and troubleshooting, see [CONDA_SETUP.md](CONDA_SETUP.md).
+
 
 ## Authors
 - Syed Ayaan Danish
