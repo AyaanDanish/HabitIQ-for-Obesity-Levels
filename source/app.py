@@ -365,15 +365,47 @@ st.markdown(
         justify-content: flex-end !important;
     }
     
-    .nav-button-right > div > div > div > button {
-        margin-left: auto !important;
+    /* Multiple approaches for right-aligned navigation buttons */
+    .nav-button-right .stButton {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
     }
     
-    /* Alternative approach using CSS selectors */
     .nav-button-right .stButton > div {
         width: 100% !important;
         display: flex !important;
         justify-content: flex-end !important;
+    }
+    
+    .nav-button-right .stButton > div > div {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+    
+    .nav-button-right .stButton button {
+        margin-left: auto !important;
+    }
+    
+    .nav-button-right > div > div > div > button {
+        margin-left: auto !important;
+    }
+    
+    /* Force button container to full width and right alignment */
+    .nav-button-right {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+    
+    /* Target the button directly within nav-button-right */
+    .nav-button-right [data-testid="baseButton-secondary"] {
+        margin-left: auto !important;
+    }
+    
+    .nav-button-right [data-testid="baseButton-primary"] {
+        margin-left: auto !important;
     }
     
     /* Hide Streamlit default elements */
