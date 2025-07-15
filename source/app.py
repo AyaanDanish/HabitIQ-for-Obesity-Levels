@@ -354,32 +354,58 @@ st.markdown(
         background-color: #2563eb;
     }
     
-    /* Navigation button alignment - more specific selectors */
+    /* Navigation button alignment - Cloud-compatible selectors */
+    
+    /* Left button alignment */
     div[data-testid="column"]:has(.nav-button-left) .stButton {
-        display: flex;
-        justify-content: flex-start;
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+    
+    .nav-button-left {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+    
+    /* Right button alignment - Multiple approaches for cloud compatibility */
+    div[data-testid="column"]:has(.nav-button-right) {
+        display: flex !important;
+        justify-content: flex-end !important;
+        width: 100% !important;
     }
     
     div[data-testid="column"]:has(.nav-button-right) .stButton {
+        margin-left: auto !important;
         display: flex !important;
         justify-content: flex-end !important;
     }
     
-    /* Multiple approaches for right-aligned navigation buttons */
-    .nav-button-right .stButton {
+    .nav-button-right {
         width: 100% !important;
         display: flex !important;
+        justify-content: flex-end !important;
+        text-align: right !important;
+    }
+    
+    /* Target all possible button structures within nav-button-right */
+    .nav-button-right .stButton {
+        margin-left: auto !important;
+        width: auto !important;
+        display: inline-flex !important;
         justify-content: flex-end !important;
     }
     
     .nav-button-right .stButton > div {
-        width: 100% !important;
+        margin-left: auto !important;
+        width: auto !important;
         display: flex !important;
         justify-content: flex-end !important;
     }
     
     .nav-button-right .stButton > div > div {
-        width: 100% !important;
+        margin-left: auto !important;
+        width: auto !important;
         display: flex !important;
         justify-content: flex-end !important;
     }
@@ -388,28 +414,114 @@ st.markdown(
         margin-left: auto !important;
     }
     
-    .nav-button-right > div > div > div > button {
+    /* More specific targeting for cloud deployment */
+    .nav-button-right button[kind="secondary"] {
         margin-left: auto !important;
     }
     
-    /* Force button container to full width and right alignment */
-    .nav-button-right {
-        width: 100% !important;
-        display: flex !important;
+    .nav-button-right button[kind="primary"] {
+        margin-left: auto !important;
+    }
+    
+    .nav-button-right [data-testid*="button"] {
+        margin-left: auto !important;
+    }
+    
+    .nav-button-right [class*="stButton"] {
+        margin-left: auto !important;
         justify-content: flex-end !important;
     }
     
-    /* Target the button directly within nav-button-right */
-    .nav-button-right [data-testid="baseButton-secondary"] {
-        margin-left: auto !important;
+    /* Force right alignment with CSS grid as backup */
+    .nav-button-right {
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        width: 100% !important;
     }
     
-    .nav-button-right [data-testid="baseButton-primary"] {
-        margin-left: auto !important;
+    .nav-button-right > * {
+        grid-column: 2 !important;
     }
     
     /* Hide Streamlit default elements */
 </style>
+
+<script>
+// JavaScript fallback for button alignment in cloud deployment
+document.addEventListener('DOMContentLoaded', function() {
+    function alignNavigationButtons() {
+        // Find all nav-button-right containers
+        const rightNavButtons = document.querySelectorAll('.nav-button-right');
+        
+        rightNavButtons.forEach(container => {
+            // Apply styles directly via JavaScript
+            container.style.width = '100%';
+            container.style.display = 'flex';
+            container.style.justifyContent = 'flex-end';
+            container.style.textAlign = 'right';
+            
+            // Find the button within this container
+            const button = container.querySelector('button');
+            if (button) {
+                button.style.marginLeft = 'auto';
+            }
+            
+            // Also target any stButton divs
+            const stButtons = container.querySelectorAll('[class*="stButton"], .stButton');
+            stButtons.forEach(stButton => {
+                stButton.style.marginLeft = 'auto';
+                stButton.style.display = 'flex';
+                stButton.style.justifyContent = 'flex-end';
+            });
+        });
+        
+        // Find all nav-button-left containers
+        const leftNavButtons = document.querySelectorAll('.nav-button-left');
+        leftNavButtons.forEach(container => {
+            container.style.width = '100%';
+            container.style.display = 'flex';
+            container.style.justifyContent = 'flex-start';
+            container.style.textAlign = 'left';
+        });
+    }
+    
+    // Run immediately
+    alignNavigationButtons();
+    
+    // Run again after a short delay to catch dynamically loaded content
+    setTimeout(alignNavigationButtons, 500);
+    setTimeout(alignNavigationButtons, 1000);
+    setTimeout(alignNavigationButtons, 2000);
+    
+    // Create a MutationObserver to watch for DOM changes
+    const observer = new MutationObserver(function(mutations) {
+        let shouldAlign = false;
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' || mutation.type === 'attributes') {
+                // Check if any nav-button elements were added or modified
+                const target = mutation.target;
+                if (target.classList && (target.classList.contains('nav-button-right') || 
+                    target.classList.contains('nav-button-left') ||
+                    target.querySelector && (target.querySelector('.nav-button-right') || target.querySelector('.nav-button-left')))) {
+                    shouldAlign = true;
+                }
+            }
+        });
+        
+        if (shouldAlign) {
+            setTimeout(alignNavigationButtons, 100);
+        }
+    });
+    
+    // Start observing
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style']
+    });
+});
+</script>
 """,
     unsafe_allow_html=True,
 )
